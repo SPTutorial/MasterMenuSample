@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:views="clr-namespace:MasterMenuSample.Views"
+            xmlns:custom="clr-namespace:MasterMenuSample;assembly=MasterMenuSample"
+            xmlns:eventToCommand="clr-namespace:MasterMenuSample.Behavior;assembly=MasterMenuSample"
+            x:Class="MasterMenuSample.Views.MainPage" Title="Masters">
+    <MasterDetailPage.Resources>
+        <ResourceDictionary>
+            <custom:SelectedToColorConverter x:Key="ColorConverter"/>
+        </ResourceDictionary>
+    </MasterDetailPage.Resources>
+    
+    <MasterDetailPage.Master>
+        <ContentPage BackgroundColor="White" Title="master">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" Grid.Column="0" BackgroundColor="#f21f49" HeightRequest="120" Orientation="Horizontal" Padding="5">
+                    <Frame HeightRequest="20" WidthRequest="20" CornerRadius="30" VerticalOptions="Center" 
+                           BackgroundColor="White" Margin="10">
+                        <Label Text="S" FontAttributes="Bold" FontSize="Large" TextColor="#f21f49" 
+                           VerticalOptions="Center" HorizontalOptions="Center"/>
+                    </Frame>
+                    <StackLayout VerticalOptions="Center" Spacing="2">
+                        <Label Text="Hello,SP Tutorial" FontAttributes="Bold" FontSize="Large" TextColor="White" 
+                           Margin="10,0,0,0" VerticalOptions="Center"/>
+                        <Label Text="spaltutorials@gmail.com" FontSize="Small" TextColor="White" 
+                           Margin="10,0,0,0" VerticalOptions="Center"/>
+                    </StackLayout>
+                </StackLayout>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <ListView SeparatorVisibility="None" ItemsSource="{Binding MenuItems}" 
+                          SelectedItem="{Binding SelectedMenu,Mode=TwoWay}" Margin="5,8,5,5">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <custom:CustomViewCell SelectedItemBackgroundColor="#f2f2f2" Height="45">
+                                    <Grid VerticalOptions="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Image Source="{Binding MenuIcon}" HeightRequest="18" WidthRequest="18" Grid.Row="0" 
+                                           Grid.Column="0" VerticalOptions="Center" Margin="15,0,0,0"/>
+                                        <Label Text="{Binding MenuName}" TextColor="{Binding Selected,Mode=TwoWay,Converter={StaticResource ColorConverter}}" Margin="10,0,0,0"
+                                           LineBreakMode="TailTruncation" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold"/>
+                                    </Grid>
+                                </custom:CustomViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <eventToCommand:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MenuItemTapped}"/>
+                        </ListView.Behaviors>
+                    </ListView>
+                </Grid>
+            </Grid>
+        </ContentPage>
+    </MasterDetailPage.Master>
+
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <StackLayout>
+
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>
